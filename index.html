@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#101515" />
+  <title>Apex Racing 3D</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=DM+Mono:wght@400;500;700&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.166.1/build/three.module.js"
+      }
+    }
+  </script>
+</head>
+<body>
+  <canvas id="world" aria-label="Apex Racing 3D game world"></canvas>
+
+  <header class="topbar">
+    <button class="brand" data-screen="home" aria-label="Go home"><span class="brand-mark">A</span><span>APEX <b>RACING</b><small>3D MOTORSPORT</small></span></button>
+    <div class="topbar-right">
+      <div class="credits-pill">◈ <span id="credits">1,500</span> CR</div>
+      <button id="mobile-mode-toggle" class="icon-button" type="button" aria-pressed="false">TOUCH MODE</button>
+      <button id="sound-btn" class="icon-button">♫ SOUND</button>
+    </div>
+  </header>
+
+  <main>
+    <section id="home-screen" class="screen home-screen">
+      <div class="eyebrow"><span class="live-dot"></span> MOTORSPORT SIMULATION</div>
+      <h1>CHASE<br><em>THE LINE.</em></h1>
+      <p class="hero-copy">Build your machine. Master the circuit. Own the podium.</p>
+      <div class="hero-actions">
+        <button id="start-btn" class="primary-button">START RACE <span>↗</span></button>
+        <button id="tutorial-btn" class="secondary-button">DRIVING TUTORIAL</button>
+      </div>
+      <div class="home-stats">
+        <div><small>SELECTED MACHINE</small><strong id="home-car">FORMULA RACER</strong></div>
+        <div><small>ACTIVE CIRCUIT</small><strong id="home-track">COASTAL GP</strong></div>
+        <div><small>PERSONAL BEST</small><strong id="best-result">NO RECORD</strong></div>
+      </div>
+      <nav class="main-nav">
+        <button data-screen="garage"><span>01</span> GARAGE <b>↗</b></button>
+        <button data-screen="tracks"><span>02</span> CIRCUITS <b>↗</b></button>
+        <button data-screen="upgrades"><span>03</span> ENGINEERING <b>↗</b></button>
+        <button data-screen="controls"><span>04</span> CONTROLS <b>↗</b></button>
+        <button id="career-menu-btn"><span>05</span> CAREER <b>↗</b></button>
+        <button id="story-menu-btn"><span>06</span> STORY <b>↗</b></button>
+      </nav>
+      <div class="home-footer"><span>APEX RACING SERIES</span><span>WASD TO DRIVE <i>·</i> C TO CHANGE CAMERA <i>·</i> ESC TO PAUSE</span></div>
+    </section>
+
+    <section id="garage-screen" class="screen panel-screen hidden">
+      <div class="panel-heading"><div><div class="eyebrow">YOUR COLLECTION</div><h2>THE <em>GARAGE.</em></h2></div><button class="back-button" data-screen="home">← BACK TO HOME</button></div>
+      <div class="garage-layout"><div id="car-list" class="choice-list"></div><aside class="details-panel"><div class="detail-label">VEHICLE TELEMETRY</div><div id="car-details"></div><div id="garage-upgrade-list" class="garage-upgrade-list"></div><button id="select-car-btn" class="primary-button full-button">DRIVE FORMULA RACER ↗</button></aside></div>
+    </section>
+
+    <section id="tracks-screen" class="screen panel-screen hidden">
+      <div class="panel-heading"><div><div class="eyebrow">FIND YOUR RACING LINE</div><h2>CHOOSE A <em>CIRCUIT.</em></h2></div><button class="back-button" data-screen="home">← BACK TO HOME</button></div>
+      <div id="pre-race-settings" class="pre-race-settings"><span class="eyebrow">RACE SETTINGS</span></div>
+      <div class="track-preview"><canvas id="track-preview-canvas" width="720" height="240" aria-label="Selected circuit map preview"></canvas><div class="track-preview-caption"><span>SELECTED CIRCUIT</span><strong id="track-preview-name">COASTAL GP</strong><small id="track-preview-detail">Ocean views · fast sweeping turns</small></div></div>
+      <div id="track-list" class="choice-list track-choice-list"></div>
+      <button id="select-track-btn" class="primary-button panel-bottom-button">LOAD SELECTED CIRCUIT ↗</button>
+    </section>
+
+    <section id="upgrades-screen" class="screen panel-screen hidden">
+      <div class="panel-heading"><div><div class="eyebrow">TUNE EVERY DETAIL</div><h2>RACE <em>ENGINEERING.</em></h2></div><button class="back-button" data-screen="home">← BACK TO HOME</button></div>
+      <div id="upgrade-list" class="upgrade-list"></div>
+    </section>
+
+    <section id="controls-screen" class="screen panel-screen hidden">
+      <div class="panel-heading"><div><div class="eyebrow">DRIVER TRAINING</div><h2>KNOW YOUR <em>CONTROLS.</em></h2></div><button class="back-button" data-screen="home">← BACK TO HOME</button></div>
+      <div class="controls-grid">
+        <div class="control-card"><h3>PLAYER 1</h3><div class="key-row"><kbd>W</kbd><span>Accelerate</span></div><div class="key-row"><kbd>S</kbd><span>Brake / reverse</span></div><div class="key-row"><kbd>A</kbd><kbd>D</kbd><span>Steer left / right</span></div><div class="key-row"><kbd>SPACE</kbd><span>Drift</span></div><div class="key-row"><kbd>C</kbd><span>Change camera</span></div><div class="key-row"><kbd>R</kbd><span>Recover car to track</span></div><div class="key-row"><kbd>ESC</kbd><span>Pause session</span></div></div>
+        <div class="control-card"><h3>LOCAL TWO-PLAYER</h3><p>Turn on <strong>2 PLAYER</strong> in the top bar. Player 2 uses the arrow keys.</p><div class="arrow-pad"><div></div><kbd>↑</kbd><div></div><kbd>←</kbd><kbd>↓</kbd><kbd>→</kbd></div><p class="muted">Both cars race on the same circuit in split-screen mode.</p></div>
+      </div>
+      <button data-screen="home" class="secondary-button">GOT IT — BACK TO HOME</button>
+    </section>
+
+    <section id="pause-screen" class="screen modal-screen hidden">
+      <div class="modal-card"><div class="eyebrow">SESSION ON HOLD</div><h2>TAKE A <em>BREATHER.</em></h2><p>Your race is paused. Get ready to return to the track.</p><button id="resume-btn" class="primary-button full-button">RESUME RACE ↗</button><button id="restart-btn" class="secondary-button full-button">RESTART SESSION</button><button data-screen="home" class="text-button">QUIT TO MAIN MENU</button></div>
+    </section>
+
+    <section id="finish-screen" class="screen modal-screen hidden">
+      <div class="modal-card"><div class="eyebrow">CHEQUERED FLAG</div><h2 id="finish-title">RACE <em>COMPLETE.</em></h2><p id="finish-copy">Good racing. Tune your car and chase the podium.</p><div class="result-time"><small>SESSION TIME</small><strong id="final-time">00:00.000</strong></div><div class="reward-line"><span>RACE REWARD</span><strong id="race-reward">+0 CR</strong></div><button id="again-btn" class="primary-button full-button">RACE AGAIN ↗</button><button data-screen="home" class="secondary-button full-button">MAIN MENU</button></div>
+    </section>
+  </main>
+
+  <div id="race-hud" class="race-hud hidden"><div class="hud-top"><div class="hud-chip"><small>SESSION</small><strong id="session-label">RACE SESSION</strong></div><div class="hud-chip"><small>CIRCUIT</small><strong id="footer-track">COASTAL GP</strong></div><div class="hud-chip"><small>POSITION</small><strong><span id="position">11</span><small> / 11</small></strong></div><div class="hud-chip"><small>LAP</small><strong><span id="lap">1</span><small> / 3</small></strong></div><div class="hud-chip time-chip"><small>RACE TIME</small><strong id="race-time">00:00.000</strong></div></div></div>
+  <div id="minimap-wrap" class="minimap-wrap hidden"><div class="mini-title">CIRCUIT MAP</div><canvas id="minimap" width="220" height="160"></canvas></div>
+  <div id="speed-panel" class="speed-panel hidden"><div class="speed-head"><span id="drive-mode">SPORT</span><span id="abs">ABS</span></div><div class="speed-reading"><strong id="speed">000</strong><span>KM/H</span></div><div class="rpm-label"><span>RPM</span><strong id="rpm">1,000</strong></div><div class="rpm-track"><i id="rpm-bar"></i></div><div class="gear-row"><span>GEAR</span><strong id="gear">1</strong></div></div>
+  <div id="bottom-hud" class="bottom-hud hidden"><div class="progress-wrap"><div class="progress-head"><span>TRACK PROGRESS</span><span id="camera-name">CHASE CAM</span></div><div class="progress-track"><i id="lap-progress"></i></div></div><div class="hud-tip">WASD DRIVE <i>·</i> C CAMERA <i>·</i> ESC PAUSE</div></div>
+  <div id="mobile-controls" class="mobile-controls" aria-label="Touch driving controls">
+    <div class="mobile-steering"><button type="button" data-game-key="KeyA" aria-label="Steer left">←</button><button type="button" data-game-key="KeyD" aria-label="Steer right">→</button></div>
+    <div class="mobile-pedals"><button type="button" data-game-key="Space" aria-label="Drift">DRIFT</button><button type="button" data-game-key="KeyS" aria-label="Brake">BRAKE</button><button type="button" data-game-key="KeyW" aria-label="Accelerate">THROTTLE</button></div>
+  </div>
+  <div id="center-message" class="center-message"></div>
+  <div id="toast" class="toast"></div>
+
+  <script type="module" src="script.js"></script>
+</body>
+</html>
